@@ -2,7 +2,10 @@ module Api
   module ExchangeRates
     module Adapters
       class FixerIoAdapter < BaseAdaptor
-        def self.time_series(days_back, base_currency, target_currency)
+        def new
+        end
+
+        def time_series(days_back, base_currency, target_currency)
           start_date = Date.today - days_back.days
           end_date = Date.today
           url_params = {
@@ -23,7 +26,7 @@ module Api
           response.body
         end
 
-        def self.historic_rate(date, base_currency, target_currency)
+        def historic_rate(date, base_currency, target_currency)
           url_params = {
             access_key: ENV['FIXER_API_KEY'],
             base: base_currency,
