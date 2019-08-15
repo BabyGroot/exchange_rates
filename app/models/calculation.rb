@@ -1,4 +1,9 @@
-class User < ApplicationRecord
-    BASE_CURRENCY = 'EUR' # Free plan for Fixer.io doesn't support some currencies (Locking down to EUR)
+class Calculation < ApplicationRecord
+
+  monetize :base_amount_subunit, as: "base_amount"
+  monetize :target_amount_subunit, as: "target_amount"
+
+
+
 end
 
