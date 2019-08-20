@@ -1,16 +1,36 @@
-<div class="jumbotron">
+<div class='jumbotron'>
   <%= "Welcome #{current_user.name}!!!" %>
 </div>
 
-<div class="container">
-  <div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Dropdown button
-    </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <% @currencies.each do |currency| %>
-        <a class="dropdown-item" href="#">currency</a>
-      <% end %>
+
+<div class='jumbotron'>
+  <%= form_tag(
+  users_calculate_exchange_rates_path,
+  method: :post,
+  class: 'form-horizontal'
+  ) do |f| %>
+    <div class="control-group">
+      <div class="input-prepend">
+        <span class="add-on"><%= 'Amount in EUR' %></span>
+        <%= number_field_tag 'amount',
+          '',
+          required: true, class: 'input-small',
+          placeholder: 'Amount',
+          step: "0.01"
+        %>
+      </div>
+      <p style='padding-top: 10px'> Select Target currency </p>
+      <div>
+        <%= select_tag 'currency',
+            options_for_select(
+              @currencies
+            ),
+            style: 'class="dropdown-menu"'
+        %>
+      </div>
     </div>
-  </div>
+    <div style='padding-top: 10px'>
+      <%= submit_tag 'Calculate Rate', class: 'btn btn-success' %>
+    </div>
+  <% end %>
 </div>

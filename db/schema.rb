@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_13_221314) do
+ActiveRecord::Schema.define(version: 2019_08_20_215908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 2019_08_13_221314) do
     t.index ["user_id", "base_amount_currency", "date", "target_amount_currency"], name: "Idx UNIQUE on user_id, date, currencies", unique: true
   end
 
+  create_table "exchange_rates", force: :cascade do |t|
+    t.string "base_amount_currency", limit: 3, null: false
+    t.string "target_amount_currency", limit: 3, null: false
+    t.float "exchange_rate", null: false
+    t.date "date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["base_amount_currency", "target_amount_currency", "date"], name: "Idx UNIQUE on exchange pair for date"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -34,6 +44,12 @@ ActiveRecord::Schema.define(version: 2019_08_13_221314) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hash_id"
+  end
+
+  create_table "widgets", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
