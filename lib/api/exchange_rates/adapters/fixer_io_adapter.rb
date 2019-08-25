@@ -1,7 +1,7 @@
 module Api
   module ExchangeRates
     module Adapters
-      class FixerIoAdapter < BaseAdaptor
+      class FixerIoAdapter < BaseAdapter
         def new
         end
 

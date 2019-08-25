@@ -1,4 +1,5 @@
 require 'net/http'
+
 module Api
   module ExchangeRates
     module Adapters

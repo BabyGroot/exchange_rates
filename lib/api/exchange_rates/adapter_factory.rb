@@ -1,7 +1,7 @@
 module Api
   module ExchangeRates
-    class AdaptorFactory
-      attr_reader :client
+    class AdapterFactory
+      attr_reader :client, :preferred_client
 
       # @param [String] preferred_client
       def initialize(preferred_client = 'fixer.io')
@@ -12,7 +12,7 @@ module Api
       private
 
       def select_client
-        case @preferred_client
+        case preferred_client
         when 'fixer.io'
           Api::ExchangeRates::Adapters::FixerIoAdapter
         else
