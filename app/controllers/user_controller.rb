@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   include CurrencyHelper
+  DEFAULT_CURRENCY = 'EUR'
   before_action :init
 
   helper_method :currency_step
@@ -7,9 +8,10 @@ class UserController < ApplicationController
   attr_reader :horizontal_axis, :vertical_axis
 
   def init
+    @user = User.friendly.find(session[:user_id])
     @currencies = AVAILABLE_CURRENCIES
-    @current_calculation = nil
     @rates = get_historic_rates
+    @calculations = @user.calculations
   end
 
   def show
@@ -22,10 +24,17 @@ class UserController < ApplicationController
   end
 
   def get_historic_rates
-    rates = []
-    ExchangeRate.all.each do |rate|
-      rates << rate
-    end
+    # service = Services::ExchangeRateCalculator.new(
+    #             base_currency: DEFAULT_CURRENCY, # Having issues with Fixer.io API, so locking down base currency
+    #             target_currency: currency,
+    #             amount: amount
+    #           )
+    # @rates = service.get_historic_calculation
+    # rates = []
+    # ExchangeRate.all.each do |rate|
+    #   rates << rate
+    # end
+    ExchangeRate.all
   end
 
 
