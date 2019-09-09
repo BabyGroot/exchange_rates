@@ -13,7 +13,7 @@ module Api
 
       def select_client
         case preferred_client
-        when 'fixer.io'
+        when 'fixer.io', nil
           Api::ExchangeRates::Adapters::FixerIoAdapter
         else
           Api::ExchangeRates::Adapters::BaseAdapter # Not configured

@@ -10,7 +10,10 @@ Rails.application.routes.draw do
     collection do
       get 'show'
 
-      post '/', to: 'transaction_entry#create', as: 'calculate_exchange_rate'
     end
+  end
+
+  namespace :users do
+    post 'calculate_exchange_rate', to: 'users#calculate_exchange_rates', as: 'calculate_exchange_rates'
   end
 end

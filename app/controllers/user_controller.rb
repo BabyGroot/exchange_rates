@@ -4,9 +4,12 @@ class UserController < ApplicationController
 
   helper_method :currency_step
 
+  attr_reader :horizontal_axis, :vertical_axis
+
   def init
     @currencies = AVAILABLE_CURRENCIES
     @current_calculation = nil
+    @rates = get_historic_rates
   end
 
   def show
@@ -16,6 +19,13 @@ class UserController < ApplicationController
     # call service to return calculation
 
     # Display
+  end
+
+  def get_historic_rates
+    rates = []
+    ExchangeRate.all.each do |rate|
+      rates << rate
+    end
   end
 
 

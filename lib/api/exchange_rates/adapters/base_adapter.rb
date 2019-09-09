@@ -5,7 +5,12 @@ module Api
     module Adapters
       class BaseAdapter
 
-        def initialize
+        attr_reader :date, :base_currency, :target_currency
+
+        def initialize(date:, base_currency:, target_currency:)
+          @date = date
+          @base_currency = base_currency
+          @target_currency = target_currency
         end
 
         def time_series(_days_back, _base_currency, _target_currency)

@@ -27,13 +27,13 @@ ActiveRecord::Schema.define(version: 2019_08_20_215908) do
   end
 
   create_table "exchange_rates", force: :cascade do |t|
-    t.string "base_amount_currency", limit: 3, null: false
-    t.string "target_amount_currency", limit: 3, null: false
+    t.string "base_currency", limit: 3, null: false
+    t.string "target_currency", limit: 3, null: false
     t.float "exchange_rate", null: false
     t.date "date", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["base_amount_currency", "target_amount_currency", "date"], name: "Idx UNIQUE on exchange pair for date"
+    t.index ["base_currency", "target_currency", "date"], name: "Idx UNIQUE on exchange pair for date"
   end
 
   create_table "users", force: :cascade do |t|
@@ -44,12 +44,6 @@ ActiveRecord::Schema.define(version: 2019_08_20_215908) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "hash_id"
-  end
-
-  create_table "widgets", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end
