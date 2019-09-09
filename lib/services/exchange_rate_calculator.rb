@@ -14,7 +14,7 @@ module Services
 
     def get_historic_calculation(days_back: 25)
       historic_rates = []
-      days_back.count.times do |day|
+      days_back.times do |day|
         date = Date.today - (day + 1).days
 
         exr = fetch_local_rate(
@@ -34,13 +34,18 @@ module Services
       return historic_rates
     end
 
-    def store_calculation
+    def store_calculation(user:)
       rate = fetch_local_rate(
         base_currency: base_currency,
         target_currency: target_currency,
         date: date
       )
-      Calculation.create!()
+      Calculation.create!(
+        user: user,
+        base_amount: Money.new(amount, rate.base_amount),
+        target_cureency: Money.new(amount * rate.exchange_rate, rate.target_currency),
+        date: rate.date
+      )
     end
 
     private
