@@ -11,7 +11,7 @@ class UserController < ApplicationController
     @user = User.friendly.find(session[:user_id])
     @currencies = AVAILABLE_CURRENCIES
     @calculations = @user.calculations.recent_first
-    @rates = params['rates']
+    @rates = ExchangeRate.where(target_currency: 'CAD').all #params['rates']
   end
 
   def show

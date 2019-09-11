@@ -4,6 +4,6 @@ class Calculation < ApplicationRecord
   monetize :target_amount_subunit, as: "target_amount"
   belongs_to :user
 
-  scope :recent_first,           -> { order('calculations.created_at DESC') }
+  scope :recent_first, -> { order('id DESC') }
 end
 
