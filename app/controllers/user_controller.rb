@@ -10,7 +10,7 @@ class UserController < ApplicationController
   def init
     @user = User.friendly.find(session[:user_id])
     @currencies = AVAILABLE_CURRENCIES
-    @calculations = @user.calculations
+    @calculations = @user.calculations.recent_first
     @rates = params['rates']
   end
 
