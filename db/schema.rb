@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 2019_08_20_215908) do
     t.string "target_amount_currency", limit: 3, null: false
     t.float "exchange_rate", null: false
     t.date "date", null: false
-    t.index ["user_id", "base_amount_currency", "date", "target_amount_currency"], name: "Idx UNIQUE on user_id, date, currencies", unique: true
+    t.index ["user_id", "base_amount_currency", "date", "target_amount_currency"], name: "Idx on user_id, date, currencies"
   end
 
   create_table "exchange_rates", force: :cascade do |t|

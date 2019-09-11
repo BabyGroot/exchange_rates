@@ -13,12 +13,11 @@ class CreateCalculations < ActiveRecord::Migration[5.2]
       end
     end
 
-    unless index_exists? TABLE_NAME, name: 'Idx UNIQUE on user_id, date, currencies'
+    unless index_exists? TABLE_NAME, name: 'Idx on user_id, date, currencies'
       add_index(
         TABLE_NAME,
-        [:user_id, :base_amount_currency, :date,  :target_amount_currency],
-        name: 'Idx UNIQUE on user_id, date, currencies',
-        unique: true
+        [:user_id, :base_amount_currency, :date, :target_amount_currency],
+        name: 'Idx on user_id, date, currencies'
       )
     end
   end

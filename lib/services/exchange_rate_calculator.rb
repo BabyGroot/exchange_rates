@@ -9,13 +9,13 @@ module Services
     def initialize(base_currency:, target_currency:, amount:)
       @base_currency = base_currency
       @target_currency = target_currency
-      @amount = amount
+      @amount = get_subunit_amount(amount)
     end
 
-    def get_historic_calculation(days_back: 25)
+    def get_historic_rates(days_back: 25)
       historic_rates = []
       days_back.times do |day|
-        date = Date.today - (day + 1).days
+        date = Date.today - day.days
 
         exr = fetch_local_rate(
                 base_currency: base_currency,
@@ -27,10 +27,11 @@ module Services
                 target_currency: target_currency,
                 date: date
               )
-
-        historic_rates << exr
+        historic_rates << {
+          date: exr.date,
+          exchange_rate: exr.exchange_rate
+        }
       end
-      store_calculation
       return historic_rates
     end
 
@@ -38,13 +39,20 @@ module Services
       rate = fetch_local_rate(
         base_currency: base_currency,
         target_currency: target_currency,
-        date: date
+        date: Date.today
       )
       Calculation.create!(
         user: user,
-        base_amount: Money.new(amount, rate.base_amount),
-        target_cureency: Money.new(amount * rate.exchange_rate, rate.target_currency),
-        date: rate.date
+        base_amount: Money.new(amount, rate.base_currency),
+        target_amount: Money.new(
+                         calculate_target_amount(
+                           amount: amount,
+                           exchange_rate: rate.exchange_rate
+                         ),
+                         rate.target_currency
+                       ),
+        exchange_rate: rate.exchange_rate,
+        date: Date.today
       )
     end
 
@@ -65,6 +73,15 @@ module Services
       exchange_rate_client
         .new(date: date, base_currency: base_currency, target_currency: target_currency)
         .historic_rate
+    end
+
+    def get_subunit_amount(amount)
+      money = Money.new(1, base_currency)
+      amount.to_i * money.currency.subunit_to_unit
+    end
+
+    def calculate_target_amount(amount:, exchange_rate:)
+      (amount * exchange_rate).to_i
     end
   end
 end

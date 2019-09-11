@@ -11,31 +11,29 @@ class UserController < ApplicationController
     @user = User.friendly.find(session[:user_id])
     @currencies = AVAILABLE_CURRENCIES
     @calculations = @user.calculations
-    @rates = nil
+    @rates = params['rates']
   end
 
   def show
   end
 
   def calculate_exchange_rates
-    get_historic_rates
+    get_historic_rates_and_store_calculation
     respond_to do |format|
-      format.html { redirect_to back, notice: 'Grab initiated.' }
+      format.html {
+        redirect_to user_path(@user.hash_id, rates: @rates), notice: 'Calculation Success'
+      }
     end
-    # Display
   end
 
-  def get_historic_rates
+  def get_historic_rates_and_store_calculation
     service = Services::ExchangeRateCalculator.new(
                 base_currency: DEFAULT_CURRENCY, # Having issues with Fixer.io API, so locking down base currency
                 target_currency: calculate_params['currency'],
                 amount: calculate_params['amount']
               )
-    @rates = service.get_historic_calculation
-    # rates = []
-    # ExchangeRate.all.each do |rate|
-    #   rates << rate
-    # end
+    @rates = service.get_historic_rates
+    service.store_calculation(user: @user)
   end
 
 
