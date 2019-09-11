@@ -8,3 +8,5 @@ jQuery ->
     labels: ['Exchange Rate']
     ymin: 'auto'
     smooth: false
+    yLabelFormat: `function (y) { return y.toFixed(6); }`
+
