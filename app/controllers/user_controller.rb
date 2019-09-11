@@ -27,7 +27,7 @@ class UserController < ApplicationController
   end
 
   def get_historic_rates_and_store_calculation
-    service = Services::ExchangeRateCalculator.new(
+    service = ::Services::ExchangeRateCalculator.new(
                 base_currency: DEFAULT_CURRENCY, # Having issues with Fixer.io API, so locking down base currency
                 target_currency: calculate_params['currency'],
                 amount: calculate_params['amount']
