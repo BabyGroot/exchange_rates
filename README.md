@@ -1,4 +1,4 @@
-# exhange_rates
+# exchange_rates
 Exchange rate project
 
 
